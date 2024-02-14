@@ -67,8 +67,6 @@ public class Hotels {
     public void setWeekEndReward(int weekEndReward) {
         this.weekEndReward = weekEndReward;
     }
-
-
     @Override
     public String toString() {
         return "Hotels{" +
