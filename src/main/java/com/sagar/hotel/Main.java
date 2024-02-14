@@ -26,7 +26,7 @@ public class Main {
         while(flag){
             System.out.println("Enter Choice");
             System.out.println("--------------------------------------");
-            System.out.println("1: Add Hotel\n2: Display hotels");
+            System.out.println("1: Add Hotel\n2: Display hotels\n3: Cheapest Hotel\n13: Exit");
             System.out.println("--------------------------------------");
             int choice=s.nextInt();
             switch (choice){
@@ -38,6 +38,16 @@ public class Main {
                 case 2:
                 {
                     h.display(hotel);
+                    break;
+                }
+                case 3:
+                {
+                    h.findCheapestHotel(hotel);
+                    break;
+                }
+                case 13:
+                {
+                    flag=false;
                     break;
                 }
             }

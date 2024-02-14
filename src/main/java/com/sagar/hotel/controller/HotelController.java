@@ -1,10 +1,9 @@
 package com.sagar.hotel.controller;
 
 import com.sagar.hotel.entity.Hotels;
+import com.sagar.hotel.enums.Customer;
 
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class HotelController {
     static Hotels hotels=new Hotels();
@@ -36,5 +35,51 @@ public class HotelController {
             System.out.println(hotel);
             System.out.println("--------------------------------------");
         }
+    }
+
+    public void findCheapestHotel(Map<String, Hotels> hotel) {
+        int minCost = Integer.MAX_VALUE;
+        String cheapestHotel = "";
+        int maxRating = Integer.MIN_VALUE;
+        List<String> date=new ArrayList<>();
+        String customerType;
+        System.out.println("Enter the Customer Type :\n1: Regular\n2: Reward");
+        int type=s.nextInt();
+        if (type==1){
+            customerType=String.valueOf(Customer.REGULAR);
+        }
+        else{
+            customerType=String.valueOf(Customer.REWARD);
+        }
+        System.out.println("Enter how many days you need hotel");
+        int days=s.nextInt();
+        System.out.println("Enter "+days+" dates that u need");
+        for (int i = 1; i <=days ; i++) {
+            System.out.println("DATE FORMAT => DD/MON/YYYY/DAY(SAT)");
+            String dateFormat=s.next();
+            date.add(dateFormat);
+        }
+        System.out.println("--------------------------------------");
+        for (Hotels h: hotel.values()){
+            int total=0;
+            for (String d:date){
+                d.toUpperCase();
+                if(d.contains("SAT") || d.contains("SUN")){
+                    total+=customerType.equalsIgnoreCase("REWARD")?h.getWeekEndReward():h.getWeekDayRate();
+                }
+                else{
+                    total+=customerType.equalsIgnoreCase("REWARD")?h.getWeekDayReward():h.getWeekDayRate();
+                }
+            }
+            System.out.println(h.getName()+" : "+total);
+            if (total < minCost || (total == minCost && h.getRating() > maxRating)) {
+                minCost = total;
+                cheapestHotel = h.getName();
+                maxRating = h.getRating();
+            }
+        }
+        System.out.println("--------------------------------------");
+        System.out.println("Cheapest Hotel: "+cheapestHotel);
+        System.out.println("--------------------------------------");
     }
 }
