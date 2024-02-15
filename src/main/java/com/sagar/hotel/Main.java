@@ -55,6 +55,10 @@ public class Main {
                     h.findCheapestHotelForDateRange(hotel);
                     break;
                 }
+                case 6:{
+                    h.updateHotelRatings(hotel);
+                    break;
+                }
 
                 case 13:
                 {

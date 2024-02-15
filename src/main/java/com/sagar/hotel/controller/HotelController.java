@@ -153,4 +153,22 @@ public class HotelController {
         }
         System.out.println("Cheapest Hotel : "+cheapestHotel+"\nTotal Days: "+totalDays);
     }
+
+    public Map<String, Hotels> updateHotelRatings(Map<String, Hotels> hotels) {
+        System.out.println("Enter the name of the hotel to update rates: ");
+        String hotelName = s.nextLine();
+
+        if (hotels.containsKey(hotelName)) {
+            Hotels hotel = hotels.get(hotelName);
+
+            System.out.println("Enter your Ratings: ");
+            hotel.setRating(s.nextInt());
+
+            hotels.put(hotelName,hotel);
+            System.out.println("Ratings updated successfully for " + hotelName);
+        } else {
+            System.out.println("Hotel not found!");
+        }
+        return hotels;
+    }
 }
