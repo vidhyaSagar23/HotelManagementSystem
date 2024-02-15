@@ -111,4 +111,46 @@ public class HotelController {
         }
         return hotels;
     }
+
+
+    public void findCheapestHotelForDateRange(Map<String, Hotels> hotels) throws ParseException, ParseException {
+        int minCost = Integer.MAX_VALUE;
+        String cheapestHotel = "";
+        int maxRating = Integer.MIN_VALUE;
+        // Input date range
+        DateFormat df = new SimpleDateFormat("ddMMMyyyy");
+        System.out.println("Enter the start date (DDMMMYYYY): ");
+        Date startDate = df.parse(s.next());
+        System.out.println("Enter the end date (DDMMMYYYY): ");
+        Date endDate = df.parse(s.next());
+
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(startDate);
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(endDate);
+
+        // Calculate total days between start and end dates
+        int totalDays = 1 + (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+
+        // Iterate over each hotel to calculate the total cost
+        for (Hotels hotel : hotels.values()) {
+            int totalCost = 0;
+            Calendar cal = (Calendar) startCal.clone();
+            while (cal.before(endCal) || cal.equals(endCal)) {
+                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+                    totalCost += hotel.getWeekEndRate();
+                } else {
+                    totalCost += hotel.getWeekDayRate();
+                }
+                cal.add(Calendar.DATE, 1);
+            }
+            if (totalCost < minCost || (totalCost == minCost && hotel.getRating() > maxRating)) {
+                minCost = totalCost;
+                cheapestHotel = hotel.getName();
+                maxRating = hotel.getRating();
+            }
+        }
+        System.out.println("Cheapest Hotel : "+cheapestHotel+"\nTotal Days: "+totalDays);
+    }
 }
