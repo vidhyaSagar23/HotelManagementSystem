@@ -272,4 +272,47 @@ public class HotelController {
             System.out.println("Only for Reward Customers");
         }
     }
+
+    public void cheapestBestRatedForReward(Map<String, Hotels> hotels){
+        System.out.println("Enter Customer Type\nPress 1 for -> Reward\nAny other number for Regular");
+        if (s.nextInt()==1){
+            System.out.println("Enter start date : Format -> yyyy mm dd");
+            int startYear=s.nextInt();
+            int startMonth=s.nextInt();
+            int startDay=s.nextInt();
+            System.out.println("Enter end date : Format -> yyyy mm dd");
+            int endYear=s.nextInt();
+            int endMonth=s.nextInt();
+            int endDay=s.nextInt();
+            LocalDate startDate=LocalDate.of(startYear,startMonth,startDay);
+            LocalDate endDate=LocalDate.of(endYear,endMonth,endDay);
+            int minCost = Integer.MAX_VALUE;
+            String cheapestBestRatedHotel = "";
+            int maxRating = Integer.MIN_VALUE;
+            for (Hotels hotel : hotels.values()) {
+                int totalCost =0;
+                int weekdayRate = hotel.getWeekDayReward();
+                int weekendRate = hotel.getWeekEndReward();
+                LocalDate currentDate = startDate;
+                while (!currentDate.isAfter(endDate)) {
+                    int dayOfWeek = currentDate.getDayOfWeek().getValue();
+                    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+                        totalCost += weekdayRate;
+                    } else {
+                        totalCost += weekendRate;
+                    }
+                    currentDate = currentDate.plusDays(1);
+                }
+                if (totalCost < minCost || (totalCost == minCost && hotel.getRating() < maxRating)) {
+                    minCost = totalCost;
+                    cheapestBestRatedHotel = hotel.getName();
+                    maxRating = hotel.getRating();
+                }
+            }
+            System.out.println("--------------------------------------");
+            System.out.println(cheapestBestRatedHotel + ", Rating: " + maxRating + " and Total Rates: $" + minCost);
+            System.out.println("--------------------------------------");
+        }
+
+    }
 }
