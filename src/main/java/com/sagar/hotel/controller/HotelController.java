@@ -251,4 +251,25 @@ public class HotelController {
         System.out.println(bestRatedHotel + " & Total Rates $" + totalRates);
         System.out.println("--------------------------------------");
     }
+
+    public void addSpecialRates(Map<String,Hotels> hotels){
+        System.out.println("Enter Choice :\n1: REWARD\n or any number to exit");
+
+        if (s.nextInt() == 1){
+            for (Hotels h:hotels.values()){
+                if (h.getName().equals("Bridgewood")){
+                    h.setWeekDayReward(110);
+                    h.setWeekEndReward(50);
+                } else if (h.getName().equals(("Ridgewood"))) {
+                    h.setWeekDayReward(100);
+                    h.setWeekEndReward(40);
+                }
+                System.out.println(h.getName()+" "+h.getWeekDayReward()+" "+h.getWeekEndReward());
+            }
+
+        }
+        else{
+            System.out.println("Only for Reward Customers");
+        }
+    }
 }
